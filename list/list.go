@@ -38,3 +38,27 @@ func (dl *DoublyLinkedList) Append(n *Node) {
 	lastNode.Next = n
 	dl.Length++
 }
+
+func (dl *DoublyLinkedList) Push(n *Node) {
+	if n == nil {
+		return
+	}
+	// Check if empty
+	if dl.Length == 0 {
+		dl.Head = n
+		dl.Tail = n
+		dl.Length++
+		return
+	}
+
+	firstNode := dl.Head
+
+	// Then, we update the last node (tail) in our Doubly linked list
+	// with the new Node, connecting it to the previous last Node
+	// and also connecting our previous last Node to the new one.
+	// Finally, we only need to increment the length.
+	dl.Head = n
+	dl.Head.Next = firstNode
+	firstNode.Pre = n
+	dl.Length++
+}
