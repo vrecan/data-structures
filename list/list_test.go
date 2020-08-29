@@ -48,7 +48,6 @@ func TestPush(t *testing.T) {
 	node := list.Head
 	expValue := total
 	expPrev := total
-	spew.Dump(list)
 	for node != nil {
 
 		if list.Length != expValue {
@@ -63,4 +62,43 @@ func TestPush(t *testing.T) {
 		expValue--
 	}
 
+}
+
+func TestAppendAfterHead(t *testing.T) {
+
+	list := DoublyLinkedList{}
+
+	total := 10
+
+	for i := 1; i <= total; i++ {
+		n := &Node{Value: i}
+		list.Push(n)
+	}
+	assert.Equal(t, list.Length, 10)
+	newNode := &Node{Value: "new"}
+	expNext := list.Head.Next
+	err := list.AppendAfter(newNode, list.Head)
+	assert.Nil(t, err)
+	assert.Equal(t, list.Head.Next, newNode)
+	assert.Equal(t, newNode.Next, expNext)
+}
+
+func TestAppendAfterTail(t *testing.T) {
+
+	list := DoublyLinkedList{}
+
+	total := 10
+
+	for i := 1; i <= total; i++ {
+		n := &Node{Value: i}
+		list.Push(n)
+	}
+	assert.Equal(t, list.Length, 10)
+	newNode := &Node{Value: "new"}
+	expNext := list.Tail.Next
+	err := list.AppendAfter(newNode, list.Tail)
+	assert.Nil(t, err)
+	assert.Equal(t, list.Tail, newNode)
+	assert.Equal(t, newNode.Next, expNext)
+	spew.Dump(list)
 }

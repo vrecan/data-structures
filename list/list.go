@@ -1,5 +1,7 @@
 package list
 
+import "fmt"
+
 //DoublyLinkedList is a list that points to the head and tail
 type DoublyLinkedList struct {
 	Head   *Node // The first node
@@ -37,6 +39,26 @@ func (dl *DoublyLinkedList) Append(n *Node) {
 	dl.Tail.Pre = lastNode
 	lastNode.Next = n
 	dl.Length++
+}
+
+//AppendAfter appends n after a node.
+func (dl *DoublyLinkedList) AppendAfter(n *Node, a *Node) error {
+	if n == nil || a == nil {
+		return fmt.Errorf("Tried to create or append to a nil node")
+	}
+	// Check if empty
+	if dl.Length == 0 {
+		return fmt.Errorf("Tried to append after an empty list")
+	}
+	n.Pre = a
+	if a.Next == nil {
+		dl.Tail = n
+	} else {
+		n.Next = a.Next
+	}
+	a.Next = n
+	dl.Length++
+	return nil
 }
 
 //Push an item on the front of the list
